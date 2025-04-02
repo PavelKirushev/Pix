@@ -2,16 +2,16 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "75ee5aa9b5db17defc9786e2bbb8819b",
+    "identityHash": "06c15c40e346e4f07696fc4b89205bda",
     "entities": [
       {
         "tableName": "pictures",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `url` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `url` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -28,7 +28,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
             "id"
           ]
@@ -40,7 +40,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '75ee5aa9b5db17defc9786e2bbb8819b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '06c15c40e346e4f07696fc4b89205bda')"
     ]
   }
 }

@@ -15,6 +15,7 @@ class MainViewModel(
     val flickrRepository: FlickrRepository,
     val pictureRepository: PictureRepository
     ): ViewModel() {
+
     private val _pictures = MutableStateFlow<List<Picture>?>(null)
     val pictures = _pictures.asStateFlow()
 

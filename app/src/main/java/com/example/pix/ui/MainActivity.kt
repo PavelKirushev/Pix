@@ -3,10 +3,10 @@ package com.example.pix.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.pix.data.flickr.FlickrRepositoryImpl
 import com.example.pix.data.flickr.FlickrRetrofit
-import com.example.pix.data.room.PictureDao
 import com.example.pix.data.room.PictureDatabase
 import com.example.pix.data.room.PictureRepositoryImpl
 
@@ -23,7 +23,8 @@ class MainActivity : ComponentActivity() {
             pictureRepository = PictureRepositoryImpl(pictureDao = db.getPictureDao())
             )
         setContent {
-            Main(mainViewModel = mainViewModel)
+            val controller = rememberNavController()
+            Navigator(mainViewModel = mainViewModel, controller = controller)
         }
     }
 }

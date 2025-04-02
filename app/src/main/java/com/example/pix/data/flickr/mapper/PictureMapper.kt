@@ -5,7 +5,7 @@ import com.example.pix.domain.entity.Picture
 
 // https://www.flickr.com/services/api/misc.urls.html
 fun PhotoDto.toEntity(quality: String): Picture = Picture(
-    id = 0,
+    id = id,
     title = title,
     url = "https://live.staticflickr.com/${server}/${id}_${secret}_${quality}.jpg",
 )
