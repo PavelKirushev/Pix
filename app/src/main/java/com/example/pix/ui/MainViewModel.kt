@@ -4,16 +4,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pix.data.room.PictureDbo
 import com.example.pix.data.room.mappers.toPictureDbo
-import com.example.pix.domain.PictureRepository
-import com.example.pix.domain.entity.FlickrRepository
 import com.example.pix.domain.entity.Picture
+import com.example.pix.domain.usecases.ClearAllUseCase
+import com.example.pix.domain.usecases.GetAllUseCase
+import com.example.pix.domain.usecases.InsertAllUseCase
+import com.example.pix.domain.usecases.SearchUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
-    val flickrRepository: FlickrRepository,
-    val pictureRepository: PictureRepository
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val clearAllUseCase: ClearAllUseCase,
+    private val getAllUseCase: GetAllUseCase,
+    private val insertAllUseCase: InsertAllUseCase,
+    private val searchUseCase: SearchUseCase,
     ): ViewModel() {
 
     private val _pictures = MutableStateFlow<List<Picture>?>(null)
@@ -23,7 +30,7 @@ class MainViewModel(
     val localPictures = _localPictures.asStateFlow()
 
     fun getPictureList() = viewModelScope.launch {
-        val remotePicture = flickrRepository.search().getOrNull()
+        val remotePicture = searchUseCase.search().getOrNull()
         _pictures.value = remotePicture
 
         remotePicture?.let {
@@ -34,20 +41,20 @@ class MainViewModel(
 
     fun getAllPictureDbo() {
         viewModelScope.launch {
-            _localPictures.value = pictureRepository.getAll()
+            _localPictures.value = getAllUseCase.getAll()
         }
     }
 
     fun insertAll(pictures: List<Picture>) {
         viewModelScope.launch {
             val picturesDbo = pictures.map{ it.toPictureDbo() }
-            pictureRepository.insertAll(picturesDbo)
+            insertAllUseCase.insertAll(picturesDbo)
         }
     }
 
     fun clearAll() {
         viewModelScope.launch {
-            pictureRepository.clearAll()
+            clearAllUseCase.clearAll()
             _localPictures.value = null
         }
     }
