@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.pix.data.room.mappers.toPicture
 import com.example.pix.ui.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -55,8 +54,8 @@ fun MainScreen(mainViewModel: MainViewModel, controller: NavHostController) {
                 }
             }
             localPictures != null -> {
-                items(localPictures!!) { pictureDbo ->
-                    AllPicturesScreen(picture = pictureDbo.toPicture(), controller)
+                items(localPictures!!) { picture ->
+                    AllPicturesScreen(picture = picture, controller)
                 }
             }
             else -> {

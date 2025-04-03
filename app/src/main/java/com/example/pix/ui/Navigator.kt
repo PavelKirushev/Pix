@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.pix.data.room.mappers.toPicture
 import com.example.pix.ui.mainscreen.MainScreen
 import com.example.pix.ui.picturescreen.PictureScreen
 
@@ -17,9 +16,9 @@ fun Navigator(mainViewModel: MainViewModel, controller: NavHostController, ){
         composable("details/{pictureId}") {
             val pictureId = it.arguments?.getString("pictureId")
             if (pictureId != null) {
-                val pictureDbo = mainViewModel.localPictures.value?.find { it.id == pictureId }
-                if (pictureDbo != null) {
-                    PictureScreen(picture = pictureDbo.toPicture())
+                val picture = mainViewModel.localPictures.value?.find { it.id == pictureId }
+                if (picture != null) {
+                    PictureScreen(picture = picture)
                 }
             }
 

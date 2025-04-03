@@ -2,8 +2,6 @@ package com.example.pix.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pix.data.room.PictureDbo
-import com.example.pix.data.room.mappers.toPictureDbo
 import com.example.pix.domain.entity.Picture
 import com.example.pix.domain.usecases.ClearAllUseCase
 import com.example.pix.domain.usecases.GetAllUseCase
@@ -26,7 +24,7 @@ class MainViewModel @Inject constructor(
     private val _pictures = MutableStateFlow<List<Picture>?>(null)
     val pictures = _pictures.asStateFlow()
 
-    private val _localPictures = MutableStateFlow<List<PictureDbo>?>(null)
+    private val _localPictures = MutableStateFlow<List<Picture>?>(null)
     val localPictures = _localPictures.asStateFlow()
 
     fun getPictureList() = viewModelScope.launch {
@@ -47,8 +45,7 @@ class MainViewModel @Inject constructor(
 
     fun insertAll(pictures: List<Picture>) {
         viewModelScope.launch {
-            val picturesDbo = pictures.map{ it.toPictureDbo() }
-            insertAllUseCase.insertAll(picturesDbo)
+            insertAllUseCase.insertAll(pictures)
         }
     }
 
